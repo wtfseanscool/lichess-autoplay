@@ -3,7 +3,6 @@ Autoplay bot/cheat for lichess.org, created in Python
 
 The default mode is set to 'key' and default key is 'end'.
 This means the bot will wait for the 'end' key before starting calculations / making a move.
-You can improve this by calculating the move ASAP and only wait to send the keys.
 
 # Requirements:
 * Created in Python 3.10
