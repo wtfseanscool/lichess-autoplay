@@ -8,7 +8,7 @@ This means the bot will wait for the 'end' key before starting calculations / ma
 * Created in Python 3.10
 * pip install -r requirements.txt (selenium, configparser, chess, keyboard)            
 * Configure 'config.ini'
-  * Path to engine file
+  * Path to engine file (download stockfish for example)
   * Lichess user/pass
   * Any UCI options wanted
 * Input moves with keyboard [in lichess user preferences]
