@@ -125,25 +125,28 @@ def play_game(board, our_color):
 			our_turn = True
 
 		if our_turn:
-			if config["general"]["MoveType"] == "key" and keyboard.is_pressed(config["general"]["MoveKey"]) or config["general"]["MoveType"] == "auto":
-				# our_time = 1
+			# check for manual move
+			manual_move = check_exists_by_xpath("/html/body/div[2]/main/div[1]/rm6/l4x/kwdb[" + str(move_number) + "]")
+			if manual_move:
+				move = driver.find_element(By.XPATH, "/html/body/div[2]/main/div[1]/rm6/l4x/kwdb[" + str(move_number) + "]").text
+				uci = board.push_san(move)
 
-				#if config["general"]["MoveType"] == "auto":
-					#if check_exists_by_xpath("/html/body/div[2]/main/div[1]/div[8]/div[2]"): # clock
-						#lichess_time = driver.find_element(By.XPATH, "/html/body/div[2]/main/div[1]/div[8]/div[2]").text
-						#our_time = get_seconds(lichess_time)
-
-				result = _engine.play(board, chess.engine.Limit(depth=int(config["engine"]["Depth"])), game=object, info=chess.engine.INFO_NONE)
-
-				print(str(ceil(move_number / 2)) + '. ' + str(result.move) + ' [us]')
-
-				board.push(result.move)
-
-				move_handle.send_keys(Keys.RETURN)
-				move_handle.clear()
-				move_handle.send_keys(str(result.move))
+				print(str(ceil(move_number / 2)) + '. ' + str(uci.uci()) + ' [us]')
 
 				move_number += 1
+			else:
+				result = _engine.play(board, chess.engine.Limit(depth=int(config["engine"]["Depth"])), game=object, info=chess.engine.INFO_NONE)
+				if config["general"]["MoveType"] == "key" and keyboard.is_pressed(config["general"]["MoveKey"]) or config["general"]["MoveType"] == "auto":
+
+					print(str(ceil(move_number / 2)) + '. ' + str(result.move) + ' [us]')
+
+					board.push(result.move)
+
+					move_handle.send_keys(Keys.RETURN)
+					move_handle.clear()
+					move_handle.send_keys(str(result.move))
+
+					move_number += 1
 
 		else:
 			opp_moved = check_exists_by_xpath("/html/body/div[2]/main/div[1]/rm6/l4x/kwdb[" + str(move_number) + "]")
@@ -162,11 +165,7 @@ def play_game(board, our_color):
 	print("[INFO] :: Game complete. Waiting for new game to start.")
 	new_game(board)
 
-
-def read_config():
-	config.read('config.ini')
-
-
+	
 def sign_in():
 	# Signing in
 	signin_button = driver.find_element(by=By.XPATH, value="/html/body/header/div[2]/a")
@@ -179,7 +178,7 @@ def sign_in():
 
 
 def main():
-	read_config()
+	config.read('config.ini')
 	board = chess.Board()
 
 	driver.get("https://www.lichess.org")
@@ -189,8 +188,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-
-
-
-
