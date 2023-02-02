@@ -6,10 +6,6 @@ Fast enough for ultrabullet; strong enough to win every game (if you want!); und
 (real-time, depth: 10)
 ![](https://github.com/wtfseanscool/lichess-autoplay/blob/main/example.gif)
 
-The default mode is set to 'key' and default key is 'end'.
-This means the bot will wait for the 'end' key before making a move.
-You also may need to make the first 1 or 2 moves for the game to register.
-
 # Prerequisites
 * Python 3.x
 
@@ -25,3 +21,7 @@ You also may need to make the first 1 or 2 moves for the game to register.
 # Note
 This script is for educational purposes only. Use it at your own risk.
 If you use an engine at full strength, odds are you will get banned.
+
+The default mode is set to 'key' and default key is 'end'.
+This means the bot will wait for the 'end' key before making a move.
+You also may need to make the first 1 or 2 moves for the game to register.
