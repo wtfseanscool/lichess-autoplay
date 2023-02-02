@@ -16,7 +16,7 @@ Fast enough for ultrabullet; strong enough to win every game (if you want!); und
      * Path to engine file (download [stockfish](https://stockfishchess.org/download/) for example)
      * Lichess user/pass
      * Any UCI options wanted (add to lichess-autoplay.py as well)
-5. Run the script: python lichess-autoplay.py
+5. Run the script: ```py lichess_autoplay.py```
 
 # Note
 This script is for educational purposes only. Use it at your own risk.
