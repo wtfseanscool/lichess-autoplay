@@ -8,6 +8,9 @@ Fast enough for ultrabullet; strong enough to win every game (if you want!); und
 
 # Prerequisites
 * Python 3.x
+* Input moves with keyboard (in lichess preferences -> game behavior)
+
+![](https://i.imgur.com/A6sZty8.png)
 
 # Getting Started
 1. Clone this repository to your local machine: ```git clone https://github.com/wtfseanscool/lichess-autoplay.git```
