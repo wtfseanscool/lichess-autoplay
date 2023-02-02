@@ -2,14 +2,15 @@ import configparser
 import chess
 import keyboard
 import os.path
+import undetected_chromedriver as uc
 
-from chess import engine
-from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+
+from chess import engine
 from time import sleep
 from math import ceil
 
@@ -18,7 +19,9 @@ Required: Input moves with keyboard [lichess preferences]
 '''
 
 # Declare globals
-driver = webdriver.Firefox()
+webdriver_options = uc.ChromeOptions()
+webdriver_options.add_argument(f'--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"')
+driver = uc.Chrome(webdriver_options)
 config = configparser.ConfigParser()
 
 

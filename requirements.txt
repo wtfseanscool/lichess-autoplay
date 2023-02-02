@@ -1,4 +1,4 @@
-selenium
+undetected-chromedriver
 configparser
 chess
 keyboard
