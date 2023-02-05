@@ -1,6 +1,5 @@
 import configparser
 import chess
-import keyboard
 import os.path
 import undetected_chromedriver as uc
 import re
@@ -11,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
+from pynput import keyboard
 from chess import engine
 from time import sleep
 from math import ceil
@@ -25,6 +25,7 @@ webdriver_options.add_argument(
     f'--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"')
 driver = uc.Chrome(webdriver_options)
 config = configparser.ConfigParser()
+make_move = False
 
 
 def check_exists_by_xpath(xpath):
@@ -100,6 +101,14 @@ def get_seconds(time_str):
         return int(mm) * 60 + int(ss)
 
     return 0
+
+
+def on_press(key):
+    global make_move
+
+    key_string = str(key)
+    if key_string == config["general"]["movekey"] or key_string == 'Key.' + config["general"]["movekey"]:
+        make_move = True
 
 
 def clear_arrow():
@@ -180,6 +189,8 @@ def draw_arrow(result, our_color):
 # recreating every time can maybe account for takebacks/etc or some other bugs, but not sure if its necessary
 
 def play_game(board, our_color):
+    global make_move
+
     WebDriverWait(driver, 600).until(ec.presence_of_element_located((By.CLASS_NAME, "ready")))
     move_handle = driver.find_element(By.CLASS_NAME, "ready")
 
@@ -235,8 +246,9 @@ def play_game(board, our_color):
                     draw_arrow(result, our_color)
                     need_draw_arrow = False
 
-                if config["general"]["movetype"] == "auto" or config["general"]["MoveType"] == "key" and keyboard.is_pressed(config["general"]["MoveKey"]):
+                if config["general"]["movetype"] == "auto" or config["general"]["MoveType"] == "key" and make_move:
                     clear_arrow()
+                    make_move = False
 
                     print(str(ceil(move_number / 2)) + '. ' + str(result.move) + ' [us]')
 
@@ -366,6 +378,9 @@ def main():
     else:
         create_config()
         config.read("config.ini")
+
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()
 
     board = chess.Board()
     driver.get("https://www.lichess.org")
