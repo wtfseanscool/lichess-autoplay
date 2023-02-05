@@ -111,6 +111,14 @@ def on_press(key):
         make_move = True
 
 
+def on_release(key):
+    global make_move
+
+    key_string = str(key)
+    if key_string == config["general"]["movekey"] or key_string == 'Key.' + config["general"]["movekey"]:
+        make_move = False
+
+
 def clear_arrow():
     driver.execute_script("""
                    g = document.getElementsByTagName("g")[0];
@@ -379,7 +387,7 @@ def main():
         create_config()
         config.read("config.ini")
 
-    listener = keyboard.Listener(on_press=on_press)
+    listener = keyboard.Listener(on_press=on_press, on_release=on_release)
     listener.start()
 
     board = chess.Board()
